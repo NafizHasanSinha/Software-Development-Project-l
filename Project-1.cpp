@@ -8,7 +8,6 @@ struct node
     int pin;
     string name;
     int cash;
-    string pendingRequest;
     node *next;
     node *prev;
 };
@@ -77,8 +76,6 @@ public:
         outFile << newnode->name << endl;
         outFile << newnode->cardNo << endl;
         outFile << newnode->pin << endl;
-        outFile << newnode->cash << endl;
-        outFile << newnode->pendingRequest << endl;
         outFile.close();
 
         cout << "Your Account Created" << endl;
