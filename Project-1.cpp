@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -21,7 +21,6 @@ class ATM
     int z;
     int c;
 
-
 public:
     ATM()
     {
@@ -30,14 +29,14 @@ public:
         y = 0;
         z = 0;
         c = 0;
-
     }
+
     int count_digits(long long int n)
     {
-
         string num = to_string(n);
         return num.size();
     }
+
     void Account()
     {
         ofstream outFile("accounts.txt", ios::app);
@@ -47,52 +46,43 @@ public:
             return;
         }
 
-        if (head == NULL)
-        {
-            node *newnode = new node;
-            cout << "Please enter your name: ";
-            cin >> x;
-            newnode->name = x;
+        node *newnode = new node;
+        cout << "Please enter your name: ";
+        cin >> x;
+        newnode->name = x;
 
-            cout << "Please enter your Card No: ";
+        cout << "Please enter your Card No: ";
+        cin >> y;
+        while (count_digits(y) != 11)
+        {
+            cout << "Put 11 digits cardNo: ";
             cin >> y;
-            while (count_digits(y) != 11)
-            {
-                cout << "Put 11 digits cardNo: ";
-                cin >> y;
-            }
-            newnode->cardNo = y;
-
-            cout << "Please enter your Pin: ";
-            cin >> z;
-            while (count_digits(z) != 4)
-            {
-                cout << "Put 4 digits pin: ";
-                cin >> z;
-            }
-            newnode->pin = z;
-
-            newnode->cash = 0;
-            newnode->next = NULL;
-            newnode->prev = NULL;
-            head = newnode;
-
-            outFile << newnode->name << endl;
-            outFile << newnode->cardNo << endl;
-            outFile << newnode->pin << endl;
-            outFile << newnode->cash << endl;
-            outFile << newnode->pendingRequest << endl;
-            outFile.close();
-
-            cout << "Your Account Created" << endl;
         }
-        else
+        newnode->cardNo = y;
+
+        cout << "Please enter your Pin: ";
+        cin >> z;
+        while (count_digits(z) != 4)
         {
-
-            outFile.close();
+            cout << "Put 4 digits pin: ";
+            cin >> z;
         }
-    }
+        newnode->pin = z;
 
+        newnode->cash = 0;
+        newnode->next = NULL;
+        newnode->prev = NULL;
+        head = newnode;
+
+        outFile << newnode->name << endl;
+        outFile << newnode->cardNo << endl;
+        outFile << newnode->pin << endl;
+        outFile << newnode->cash << endl;
+        outFile << newnode->pendingRequest << endl;
+        outFile.close();
+
+        cout << "Your Account Created" << endl;
+    }
 
     int LoginAccount()
     {
@@ -106,12 +96,11 @@ public:
             return 1;
         }
 
-        node *temp = head;
         cout << "Please enter your Card No: ";
-        cin >> y;
+        cin >> cardNo;
 
         cout << "Please enter your Pin: ";
-        cin >> z;
+        cin >> pin;
 
         bool found = false;
         while (inFile >> x >> y >> z >> c)
@@ -138,6 +127,28 @@ public:
             return 1;
         }
     }
+    void Deposit()
+    {
+        cout << "Please Enter The Amount: ";
+        cin >> c;
+        ifstream inFile("accounts.txt");
+
+
+        node *temp = head;
+        while (temp != NULL)
+        {
+            if (temp->cardNo == y && temp->pin == z)
+            {
+                cout << "Please Enter The Amount: ";
+                cin >> c;
+                temp->cash = temp->cash + c;
+                cout << "Amount successfully Added" << endl;
+                break;
+            }
+            temp = temp->next;
+        }
+    }
+
     void user_menu()
     {
         cout << "_____________________" << endl;
@@ -190,7 +201,7 @@ public:
         cout << "|___________________|" << endl;
         cout << "|1. Create Account  |" << endl;
         cout << "|2. Login to Account|" << endl;
-        cout << "|4. Exit            |" << endl;
+        cout << "|3. Exit            |" << endl;
         cout << "|___________________|" << endl;
         int scommand;
 
@@ -205,11 +216,9 @@ public:
             break;
         case 2:
             if (LoginAccount() == 0)
+                user_menu();
             break;
         case 3:
-            break:
-        case 4:
-
             cout << "Exiting..." << endl;
             break;
         default:
@@ -219,9 +228,9 @@ public:
         }
     }
 };
+
 int main()
 {
     ATM obj;
     obj.main_menu();
 }
-
